@@ -12,22 +12,6 @@
             |_|                             |___/                 
 --]]
 
-local function removeVehicle(model)
-    SetEntityAsMissionEntity(model, true, true)
-    DeleteVehicle(model)
-end
-
-local function removePed(ped)
-    SetEntityAsMissionEntity(ped, true, true)
-    DeletePed(ped)
-end
-
-local function disableDispatch()
-    for i = 1, 12 do
-        EnableDispatchService(i, false)
-    end
-end
-
 CreateThread(function()
     ---@diagnostic disable-next-line: missing-parameter
     AddPopMultiplierSphere(0, 0, 0, 100000, Config.pedDensity, Config.vehDensity);
@@ -37,7 +21,9 @@ CreateThread(function()
     SetCreateRandomCopsOnScenarios(Config.disableCops)
 
     if Config.disableDispatch then
-        disableDispatch()
+        for i = 1, 12 do
+			EnableDispatchService(i, false)
+		end
     end
 
     if Config.disableWantedLevel then SetMaxWantedLevel(0) end
@@ -76,7 +62,8 @@ CreateThread(function()
 
             for _, modelName in ipairs(Config.disabledVehicles) do
                 if model == GetHashKey(modelName) then
-                    removeVehicle(vehicle)
+                    SetEntityAsMissionEntity(vehicle, true, true)
+					DeleteVehicle(vehicle)
                     removedEntities += 1
                     break
                 end
@@ -93,7 +80,8 @@ CreateThread(function()
 
             for _, modelName in ipairs(Config.disabledPeds) do
                 if model == GetHashKey(modelName) then
-                    removePed(ped)
+                    SetEntityAsMissionEntity(ped, true, true)
+					DeletePed(ped)
                     removedEntities += 1
                     break
                 end
