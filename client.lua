@@ -35,9 +35,9 @@ CreateThread(function()
     SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_02_MAIN_ROOM", not Config.disableVanilla)
     SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_03_BACK_ROOM", not Config.disableVanilla)
 
-    for _, vehicleModel in pairs(Config.disabledVehicles) do SetVehicleModelIsSuppressed(GetHashKey(vehicleModel), true) end
+    for _, vehicleModel in pairs(Config.disabledVehicles) do SetVehicleModelIsSuppressed(vehicleModel, true) end
 
-    for _, pedModel in pairs(Config.disabledPeds) do SetPedModelIsSuppressed(GetHashKey(pedModel), true) end
+    for _, pedModel in pairs(Config.disabledPeds) do SetPedModelIsSuppressed(pedModel, true) end
 
     local removedEntities
 
@@ -53,7 +53,7 @@ CreateThread(function()
             local model = GetEntityModel(vehicle)
 
             for _, vehicleModel in pairs(Config.disabledVehicles) do
-                if model == GetHashKey(vehicleModel) then
+                if model == vehicleModel then
                     SetEntityAsMissionEntity(vehicle, true, true)
 					DeleteVehicle(vehicle)
                     removedEntities += 1
@@ -72,7 +72,7 @@ CreateThread(function()
             local model = GetEntityModel(ped)
 
             for _, pedModel in pairs(Config.disabledPeds) do
-                if model == GetHashKey(pedModel) then
+                if model == pedModel then
                     SetEntityAsMissionEntity(ped, true, true)
 					DeletePed(ped)
                     removedEntities += 1
@@ -80,7 +80,7 @@ CreateThread(function()
                 end
             end
         end
-		
+
         if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." peds.") end
     end
 end)
