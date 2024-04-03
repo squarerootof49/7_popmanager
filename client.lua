@@ -47,15 +47,15 @@ CreateThread(function()
         Wait(Config.loopTime)
 
         removedEntities = 0
-        local vehicles = GetGamePool("CVehicle")
+        local vehicles <const> = GetGamePool("CVehicle")
         for i = 1, #vehicles do
-            local vehicle = vehicles[i]
-            local model = GetEntityModel(vehicle)
+            local vehicleId    <const> = vehicles[i]
+            local vehicleModel <const> = GetEntityModel(vehicleId)
 
-            for _, vehicleModel in pairs(Config.disabledVehicles) do
-                if model == vehicleModel then
-                    SetEntityAsMissionEntity(vehicle, true, true)
-					DeleteVehicle(vehicle)
+            for _, disabledVehicleModel in pairs(Config.disabledVehicles) do
+                if vehicleModel == disabledVehicleModel then
+                    SetEntityAsMissionEntity(vehicleId, true, true)
+					DeleteVehicle(vehicleId)
                     removedEntities += 1
                     break
                 end
@@ -66,15 +66,15 @@ CreateThread(function()
 
         removedEntities = 0
 
-        local peds = GetGamePool("CPed")
+        local peds <const> = GetGamePool("CPed")
         for i = 1, #peds do
-            local ped = peds[i]
-            local model = GetEntityModel(ped)
+            local pedId    <const> = peds[i]
+            local pedModel <const> = GetEntityModel(pedId)
 
-            for _, pedModel in pairs(Config.disabledPeds) do
-                if model == pedModel then
-                    SetEntityAsMissionEntity(ped, true, true)
-					DeletePed(ped)
+            for _, disabledPedModel in pairs(Config.disabledPeds) do
+                if pedModel == disabledPedModel then
+                    SetEntityAsMissionEntity(pedId, true, true)
+					DeletePed(pedId)
                     removedEntities += 1
                     break
                 end
