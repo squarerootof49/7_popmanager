@@ -61,10 +61,11 @@ CreateThread(function()
                 end
             end
         end
+		
         if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." vehicles.") end
 
-
         removedEntities = 0
+
         local peds = GetGamePool("CPed")
         for i = 1, #peds do
             local ped = peds[i]
@@ -79,6 +80,7 @@ CreateThread(function()
                 end
             end
         end
+		
         if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." peds.") end
     end
 end)
