@@ -39,14 +39,11 @@ CreateThread(function()
 
     for _, pedModel in pairs(Config.disabledPeds) do SetPedModelIsSuppressed(pedModel, true) end
 
-    local removedEntities
-
     if not Config.loopedRemoval then return end
-
+	
     while true do
-        Wait(Config.loopTime)
+		local removedVehicles, removedPeds = 0, 0
 
-        removedEntities = 0
         local vehicles <const> = GetGamePool("CVehicle")
         for i = 1, #vehicles do
             local vehicleId    <const> = vehicles[i]
@@ -56,16 +53,12 @@ CreateThread(function()
                 if vehicleModel == disabledVehicleModel then
                     SetEntityAsMissionEntity(vehicleId, true, true)
 					DeleteVehicle(vehicleId)
-                    removedEntities += 1
+                    removedVehicles += 1
                     break
                 end
             end
         end
 		
-        if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." vehicles.") end
-
-        removedEntities = 0
-
         local peds <const> = GetGamePool("CPed")
         for i = 1, #peds do
             local pedId    <const> = peds[i]
@@ -75,12 +68,14 @@ CreateThread(function()
                 if pedModel == disabledPedModel then
                     SetEntityAsMissionEntity(pedId, true, true)
 					DeletePed(pedId)
-                    removedEntities += 1
+                    removedPeds += 1
                     break
                 end
             end
         end
 
-        if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." peds.") end
+        if Config.debug then print(("Removed %d Vehicles and %d Peds"):format(removedVehicles, removedPeds)) end
+
+		Wait(Config.loopTime)
     end
 end)
