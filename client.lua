@@ -20,11 +20,7 @@ CreateThread(function()
     SetCreateRandomCopsNotOnScenarios(Config.disableCops)
     SetCreateRandomCopsOnScenarios(Config.disableCops)
 
-    if Config.disableDispatch then
-        for i = 1, 12 do
-			EnableDispatchService(i, false)
-		end
-    end
+    if Config.disableDispatch then for i = 1, 15 do EnableDispatchService(i, false) end end
 
     if Config.disableWantedLevel then SetMaxWantedLevel(0) end
 
