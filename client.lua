@@ -12,22 +12,6 @@
             |_|                             |___/                 
 --]]
 
-local function removeVehicle(model)
-    SetEntityAsMissionEntity(model, true, true)
-    DeleteVehicle(model)
-end
-
-local function removePed(ped)
-    SetEntityAsMissionEntity(ped, true, true)
-    DeletePed(ped)
-end
-
-local function disableDispatch()
-    for i = 1, 12 do
-        EnableDispatchService(i, false)
-    end
-end
-
 CreateThread(function()
     ---@diagnostic disable-next-line: missing-parameter
     AddPopMultiplierSphere(0, 0, 0, 100000, Config.pedDensity, Config.vehDensity);
@@ -36,9 +20,7 @@ CreateThread(function()
     SetCreateRandomCopsNotOnScenarios(Config.disableCops)
     SetCreateRandomCopsOnScenarios(Config.disableCops)
 
-    if Config.disableDispatch then
-        disableDispatch()
-    end
+    if Config.disableDispatch then for i = 1, 15 do EnableDispatchService(i, false) end end
 
     if Config.disableWantedLevel then SetMaxWantedLevel(0) end
 
@@ -53,52 +35,47 @@ CreateThread(function()
     SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_02_MAIN_ROOM", not Config.disableVanilla)
     SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_03_BACK_ROOM", not Config.disableVanilla)
 
-    for _, modelName in ipairs(Config.disabledVehicles) do
-        SetVehicleModelIsSuppressed(GetHashKey(modelName), true)
-    end
+    for _, vehicleModel in pairs(Config.disabledVehicles) do SetVehicleModelIsSuppressed(vehicleModel, true) end
 
-    for _, modelName in ipairs(Config.disabledPeds) do
-        SetPedModelIsSuppressed(GetHashKey(modelName), true)
-    end
-
-    local removedEntities
+    for _, pedModel in pairs(Config.disabledPeds) do SetPedModelIsSuppressed(pedModel, true) end
 
     if not Config.loopedRemoval then return end
-
+	
     while true do
-        Wait(Config.loopTime)
+		local removedVehicles, removedPeds = 0, 0
 
-        removedEntities = 0
-        local vehicles = GetGamePool("CVehicle")
+        local vehicles <const> = GetGamePool("CVehicle")
         for i = 1, #vehicles do
-            local vehicle = vehicles[i]
-            local model = GetEntityModel(vehicle)
+            local vehicleId    <const> = vehicles[i]
+            local vehicleModel <const> = GetEntityModel(vehicleId)
 
-            for _, modelName in ipairs(Config.disabledVehicles) do
-                if model == GetHashKey(modelName) then
-                    removeVehicle(vehicle)
-                    removedEntities += 1
+            for _, disabledVehicleModel in pairs(Config.disabledVehicles) do
+                if vehicleModel == disabledVehicleModel then
+                    SetEntityAsMissionEntity(vehicleId, true, true)
+					DeleteVehicle(vehicleId)
+                    removedVehicles += 1
                     break
                 end
             end
         end
-        if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." vehicles.") end
-
-
-        removedEntities = 0
-        local peds = GetGamePool("CPed")
+		
+        local peds <const> = GetGamePool("CPed")
         for i = 1, #peds do
-            local ped = peds[i]
-            local model = GetEntityModel(ped)
+            local pedId    <const> = peds[i]
+            local pedModel <const> = GetEntityModel(pedId)
 
-            for _, modelName in ipairs(Config.disabledPeds) do
-                if model == GetHashKey(modelName) then
-                    removePed(ped)
-                    removedEntities += 1
+            for _, disabledPedModel in pairs(Config.disabledPeds) do
+                if pedModel == disabledPedModel then
+                    SetEntityAsMissionEntity(pedId, true, true)
+					DeletePed(pedId)
+                    removedPeds += 1
                     break
                 end
             end
         end
-        if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." peds.") end
+
+        if Config.debug then print(("Removed %d Vehicles and %d Peds"):format(removedVehicles, removedPeds)) end
+
+		Wait(Config.loopTime)
     end
 end)
