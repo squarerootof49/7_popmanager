@@ -20,6 +20,8 @@ Config.debug                 = true                  --Prints some stuff for deb
 Config.pedDensity            = 1.0                   --Density of NPC. 1.0 = standard density, 0.5 = half, 2.0 = double, etc.
 Config.vehDensity            = 1.0                   --Density of ROAMING vehicles. 1.0 = standard density, 0.5 = half, 2.0 = double, etc.
 Config.disableCops           = true                  --Disable NPC cops?
+Config.loopedRemoval         = false                 --By default, the script prevents Config.disabledVehicles and Config.disabledPeds from spawning naturally. If this is set to true, it will also check every Config.loopTime and remove the vehicles and the peds.
+Config.loopTime              = 1250                  --Time in ms to run the looped natives. 1250ms is default.
 
 -- Dispatch configuration
 Config.disableDispatch       = true                  --Disable native GTAV NPC dispatch?
@@ -31,7 +33,8 @@ Config.disableAmmunation    = true                   --Disable native GTAV ammun
 Config.disableVanilla       = true                   --Disable native GTAV vanilla unicorn ambient sound?
 
 -- Model configuration
-Config.disabledVehicles = {                             -- List of vehicles blacklisted from spawning. WARNING: if any of your resources spawn/use any of these vehicles, remove said vehicles from the list.
+-- WARNING: if any of your resources spawn/use any of these vehicles, remove said vehicles from the list IF Config.loopedRemoval is set to true.
+Config.disabledVehicles = {                             -- List of vehicles blacklisted from spawning.
     "ambulance",
     "firetruk",
     "polmav",
@@ -87,6 +90,7 @@ Config.disabledVehicles = {                             -- List of vehicles blac
     "hunt",
 }
 
+--WARNING: if any of your resources spawn/use any of these peds, remove said peds from the list IF config.loopedRemoval is set to true.
 Config.disabledPeds = {                             -- List of peds blacklisted from spawning. WARNING: if any of your resources spawn/use any of these peds, remove said peds from the list.
     "s_m_m_paramedic_01",
     "s_m_m_paramedic_02",

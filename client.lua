@@ -60,42 +60,44 @@ CreateThread(function()
     local removedEntities
 
     while true do
-        Wait(1250)
+        Wait(Config.loopTime)
 
-        removedEntities = 0
-        local vehicles = GetGamePool("CVehicle")
-        for i = 1, #vehicles do
-            local vehicle = vehicles[i]
-            local model = GetEntityModel(vehicle)
+        if Config.loopedRemoval then 
+            removedEntities = 0
+            local vehicles = GetGamePool("CVehicle")
+            for i = 1, #vehicles do
+                local vehicle = vehicles[i]
+                local model = GetEntityModel(vehicle)
 
-            for _, modelName in ipairs(Config.disabledVehicles) do
-                if model == GetHashKey(modelName) then
-                    removeVehicle(vehicle)
-                    removedEntities += 1
-                    break
+                for _, modelName in ipairs(Config.disabledVehicles) do
+                    if model == GetHashKey(modelName) then
+                        removeVehicle(vehicle)
+                        removedEntities += 1
+                        break
+                    end
                 end
             end
-        end
 
-        if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." vehicles.") end
+            if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." vehicles.") end
 
 
-        removedEntities = 0
-        local peds = GetGamePool("CPed")
-        for i = 1, #peds do
-            local ped = peds[i]
-            local model = GetEntityModel(ped)
+            removedEntities = 0
+            local peds = GetGamePool("CPed")
+            for i = 1, #peds do
+                local ped = peds[i]
+                local model = GetEntityModel(ped)
 
-            for _, modelName in ipairs(Config.disabledPeds) do
-                if model == GetHashKey(modelName) then
-                    removePed(ped)
-                    removedEntities += 1
-                    break
+                for _, modelName in ipairs(Config.disabledPeds) do
+                    if model == GetHashKey(modelName) then
+                        removePed(ped)
+                        removedEntities += 1
+                        break
+                    end
                 end
             end
-        end
 
-        if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." peds.") end
+            if Config.debug then print("[Population Manager] Successfully removed "..removedEntities.." peds.") end
+        end
 
         if Config.disableDispatch then
             disableDispatch()
