@@ -35,13 +35,9 @@ CreateThread(function()
     SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_02_MAIN_ROOM", not Config.disableVanilla)
     SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_03_BACK_ROOM", not Config.disableVanilla)
 
-    for _, modelName in ipairs(Config.disabledVehicles) do
-        SetVehicleModelIsSuppressed(GetHashKey(modelName), true)
-    end
+    for _, vehicleModel in pairs(Config.disabledVehicles) do SetVehicleModelIsSuppressed(GetHashKey(vehicleModel), true) end
 
-    for _, modelName in ipairs(Config.disabledPeds) do
-        SetPedModelIsSuppressed(GetHashKey(modelName), true)
-    end
+    for _, pedModel in pairs(Config.disabledPeds) do SetPedModelIsSuppressed(GetHashKey(pedModel), true) end
 
     local removedEntities
 
@@ -56,8 +52,8 @@ CreateThread(function()
             local vehicle = vehicles[i]
             local model = GetEntityModel(vehicle)
 
-            for _, modelName in ipairs(Config.disabledVehicles) do
-                if model == GetHashKey(modelName) then
+            for _, vehicleModel in pairs(Config.disabledVehicles) do
+                if model == GetHashKey(vehicleModel) then
                     SetEntityAsMissionEntity(vehicle, true, true)
 					DeleteVehicle(vehicle)
                     removedEntities += 1
@@ -74,8 +70,8 @@ CreateThread(function()
             local ped = peds[i]
             local model = GetEntityModel(ped)
 
-            for _, modelName in ipairs(Config.disabledPeds) do
-                if model == GetHashKey(modelName) then
+            for _, pedModel in pairs(Config.disabledPeds) do
+                if model == GetHashKey(pedModel) then
                     SetEntityAsMissionEntity(ped, true, true)
 					DeletePed(ped)
                     removedEntities += 1
