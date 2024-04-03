@@ -64,7 +64,7 @@ CreateThread(function()
     local removedEntities
 
     if not Config.loopedRemoval then return end
-    
+
     while true do
         Wait(Config.loopTime)
 
