@@ -21,7 +21,9 @@ description 'Seven\'s simple population manager.'
 author 'Seven (azazel98x on Discord)'
 version '1.0.0'
 
+
 client_scripts {
+  '@ox_lib/init.lua',
   'client.lua',
   'config.lua'
 }

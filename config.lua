@@ -1,36 +1,27 @@
---[[
-  ____                       _                              
- / ___|  _____   _____ _ __ ( )___                          
- \___ \ / _ \ \ / / _ \ '_ \|// __|                         
-  ___) |  __/\ V /  __/ | | | \__ \                         
- |____/ \___| \_/ \___|_| |_| |___/                         
-  ____             __  __                                   
- |  _ \ ___  _ __ |  \/  | __ _ _ __   __ _  __ _  ___ _ __ 
- | |_) / _ \| '_ \| |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__|
- |  __/ (_) | |_) | |  | | (_| | | | | (_| | (_| |  __/ |   
- |_|   \___/| .__/|_|  |_|\__,_|_| |_|\__,_|\__, |\___|_|   
-            |_|                             |___/                 
---]]
-
 Config = {}
 
-Config.debug                 = true                  --Prints some stuff for debug purposes.
+Config.debug                 = false                    --Prints some stuff for debug purposes.
+Config.debugAreas            = false                    --Visualizes areas where spawning is prevented. Requires ox_lib.
 
 -- NPC configuration
-Config.pedDensity            = 1.0                   --Density of NPC. 1.0 = standard density, 0.5 = half, 2.0 = double, etc.
-Config.vehDensity            = 1.0                   --Density of ROAMING vehicles. 1.0 = standard density, 0.5 = half, 2.0 = double, etc.
-Config.disableCops           = true                  --Disable NPC cops?
-Config.loopedRemoval         = false                 --By default, the script prevents Config.disabledVehicles and Config.disabledPeds from spawning naturally. If this is set to true, it will also check every Config.loopTime and remove the vehicles and the peds.
-Config.loopTime              = 1250                  --Time in ms to run the looped natives. 1250ms is default.
+Config.pedDensity            = 0                        --Density of NPC. Ranges from 0 to 3, 3 being standard.
+Config.vehDensity            = 0                        --Density of ROAMING vehicles. Ranges from 0 to 3, 3 being standard.
+Config.parkedVehDensity      = 0                        --Density of PARKED vehicles. Ranges from 0 to 3, 3 being standard.
+Config.disableCops           = true                     --Disable NPC cops?
+Config.disableBoats          = true                     --Disable NPC boats?
+Config.disableTrains         = true                     --Disable NPC trains?
+Config.disableGarbageTrucks  = true                     --Disable NPC garbage trucks?
+Config.loopedRemoval         = false                    --By default, the script prevents military, medical and police NPCs from spawning naturally. If this is set to true, it will also check every Config.loopTime and remove Config.disabledPeds and Config.disabledVehicles.
+Config.loopTime              = 1250                     --Time in ms to run the looped natives. 1250ms is default.
 
 -- Dispatch configuration
-Config.disableDispatch       = true                  --Disable native GTAV NPC dispatch?
-Config.disableWantedLevel    = true                  --Disable native GTAV wanted level?
+Config.disableDispatch       = true                     --Disable native GTAV NPC dispatch?
+Config.disableWantedLevel    = true                     --Disable native GTAV wanted level?
 
 -- Audio configuration
-Config.disablePoliceScan    = true                   --Disable native GTAV police radio sound when in police vehicles?
-Config.disableAmmunation    = true                   --Disable native GTAV ammunation ambient sound?
-Config.disableVanilla       = true                   --Disable native GTAV vanilla unicorn ambient sound?
+Config.disablePoliceScan    = true                      --Disable native GTAV police radio sound when in police vehicles?
+Config.disableAmmunation    = true                      --Disable native GTAV ammunation ambient sound?
+Config.disableVanilla       = true                      --Disable native GTAV vanilla unicorn ambient sound?
 
 -- Model configuration
 -- WARNING: if any of your resources spawn/use any of these vehicles, remove said vehicles from the list IF Config.loopedRemoval is set to true.
