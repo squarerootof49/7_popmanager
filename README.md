@@ -20,6 +20,7 @@ Overkill NPC/Population/Ambient management script I made packed with cool featur
 - Initially, I was using `AddPopMultiplierSphere` for ped and vehicle density. Seemed to not work properly around 75% of the times. Used natives related to budget instead.
 - Added specific areas where vehicles and peds do not spawn at all (was at some point using `AddPopMultiplierArea` with the same issues listed previously, with no luck of course)
 - Added control over random NPC boats, trains and garbage trucks
+- Added parked vehicle density
 
 ### Credits for the part regarding population spawn areas go to https://github.com/Demigod916 ###
 ### Credits for the part regarding scenarios and ped relationships go to https://github.com/Andyyy7666 ###
