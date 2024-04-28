@@ -18,7 +18,7 @@ game 'gta5'
 lua54 'yes'
 
 description 'Seven\'s simple population manager.'
-author 'Seven (azazel98x on Discord)'
+author 'Seven (squarerootof49 on Discord)'
 version '1.0.0'
 
 

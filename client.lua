@@ -117,19 +117,23 @@ CreateThread(function()
             false,
             false
         )
-        SetPedNonCreationArea(v.coords.x - v.size,
+        SetPedNonCreationArea(
+            v.coords.x - v.size,
             v.coords.y - v.size,
             v.coords.z - v.thickness,
             v.coords.x + v.size,
             v.coords.y + v.size,
-            v.coords.z + v.thickness)
-        AddScenarioBlockingArea(v.coords.x - v.size,
+            v.coords.z + v.thickness
+        )
+        AddScenarioBlockingArea(
+            v.coords.x - v.size,
             v.coords.y - v.size,
             v.coords.z - v.thickness,
             v.coords.x + v.size,
             v.coords.y + v.size,
-            v.coords.z + v.thickness, false, true, true, true)
-            
+            v.coords.z + v.thickness, false, true, true, true
+        )
+
         if Config.debugAreas then
             createDebugZone(v)
         end
@@ -201,7 +205,7 @@ CreateThread(function()
                 end
             end
         end
-		
+
         local peds <const> = GetGamePool("CPed")
         for i = 1, #peds do
             local pedId    <const> = peds[i]
@@ -221,4 +225,85 @@ CreateThread(function()
 
 		Wait(Config.loopTime)
     end
+end)
+
+AddEventHandler("onResourceStop", function (name)
+    if name ~= GetCurrentResourceName() then return end
+
+    for _, v in pairs(antiGenAreas) do
+        SetAllVehicleGeneratorsActiveInArea(
+            v.coords.x - v.size,
+            v.coords.y - v.size,
+            v.coords.z - v.thickness,
+            v.coords.x + v.size,
+            v.coords.y + v.size,
+            v.coords.z + v.thickness,
+            true,
+            true
+        )
+        SetPedNonCreationArea(
+            v.coords.x - v.size,
+            v.coords.y - v.size,
+            v.coords.z - v.thickness,
+            v.coords.x + v.size,
+            v.coords.y + v.size,
+            v.coords.z + v.thickness
+        )
+        AddScenarioBlockingArea(
+            v.coords.x - v.size,
+            v.coords.y - v.size,
+            v.coords.z - v.thickness,
+            v.coords.x + v.size,
+            v.coords.y + v.size,
+            v.coords.z + v.thickness,
+            true, true, true, true
+        )
+    end
+
+    --*2
+    for i=1, #relationships do
+        SetRelationshipBetweenGroups(3, relationships[i], `PLAYER`)
+    end
+
+    --*2
+    for i=1, #scenarios do
+        SetScenarioTypeEnabled(scenarios[i], true)
+    end
+
+    SetPedPopulationBudget(3)
+    SetVehiclePopulationBudget(3)
+    SetNumberOfParkedVehicles(3)
+
+    SetRandomBoats(true)
+    SetRandomTrains(true)
+    SetGarbageTrucks(true)
+
+    SetCreateRandomCops(true)
+    SetCreateRandomCopsNotOnScenarios(true)
+    SetCreateRandomCopsOnScenarios(true)
+
+    if Config.disableDispatch then
+        for i = 1, 32 do
+            EnableDispatchService(i, false)
+        end
+        SetDispatchCopsForPlayer(PlayerId(), true)
+    end
+
+
+    SetMaxWantedLevel(5)
+
+    SetAudioFlag('PoliceScannerDisabled', true)
+
+    if Config.disableAmmunation then
+        ClearAmbientZoneState("collision_ybmrar", true)
+        SetAmbientZoneState("collision_ybmrar", true, true)
+    end
+
+    SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_01_STAGE", true)
+    SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_02_MAIN_ROOM", true)
+    SetStaticEmitterEnabled("LOS_SANTOS_VANILLA_UNICORN_03_BACK_ROOM", true)
+
+    for _, vehicleModel in pairs(Config.disabledVehicles) do SetVehicleModelIsSuppressed(vehicleModel, false) end
+
+    for _, pedModel in pairs(Config.disabledPeds) do SetPedModelIsSuppressed(pedModel, false) end
 end)
