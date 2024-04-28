@@ -117,19 +117,23 @@ CreateThread(function()
             false,
             false
         )
-        SetPedNonCreationArea(v.coords.x - v.size,
+        SetPedNonCreationArea(
+            v.coords.x - v.size,
             v.coords.y - v.size,
             v.coords.z - v.thickness,
             v.coords.x + v.size,
             v.coords.y + v.size,
-            v.coords.z + v.thickness)
-        AddScenarioBlockingArea(v.coords.x - v.size,
+            v.coords.z + v.thickness
+        )
+        AddScenarioBlockingArea(
+            v.coords.x - v.size,
             v.coords.y - v.size,
             v.coords.z - v.thickness,
             v.coords.x + v.size,
             v.coords.y + v.size,
-            v.coords.z + v.thickness, false, true, true, true)
-            
+            v.coords.z + v.thickness, false, true, true, true
+        )
+
         if Config.debugAreas then
             createDebugZone(v)
         end
@@ -201,7 +205,7 @@ CreateThread(function()
                 end
             end
         end
-		
+
         local peds <const> = GetGamePool("CPed")
         for i = 1, #peds do
             local pedId    <const> = peds[i]
