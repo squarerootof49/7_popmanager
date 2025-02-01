@@ -1,5 +1,5 @@
 # 7_popmanager
-Overkill NPC/Population/Ambient management script I made packed with cool features.
+An overkill framework-agnostic population (NPC) & ambient manager for FiveM servers, packed with features.
 
 ## Features
 - ***COMPLETELY LOOPLESS*** (whoo) (unless you want to sweep the server's vehicle pool for certain vehicles, see config file)
